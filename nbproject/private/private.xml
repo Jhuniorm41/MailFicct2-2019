@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Procesador/TPC.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Negocio/NCliente.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/utils/Constantes.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Protocolos/SMTP.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Datos/DCliente_Imprisol.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/utils/Help.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Email/MailCliente_Imprisol.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Principal/Impresol.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Protocolos/POP.java</file>
-            <file>file:/C:/Users/Daniel/Desktop/TECNO%20WEB%202-2019/ProjectMail/src/Procesador/Token.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

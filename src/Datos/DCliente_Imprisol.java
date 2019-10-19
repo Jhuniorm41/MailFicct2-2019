@@ -19,40 +19,33 @@ import javax.swing.table.DefaultTableModel;
 public class DCliente_Imprisol {
     
     private int id;
-    private String codigo;
+    private String email;
+    private String contraseña;
     private int nit;
     private String nombre;
     private String telefono;
-    private String estado;
+    private boolean estado;
     private Conexion conexion;
 
     public DCliente_Imprisol() {
         this.id = 0;
-        this.codigo = "";
+        this.email = "";
+        this.contraseña = "";
         this.nit = 0;
         this.nombre = "";
         this.telefono = "";
-        this.estado = "";
+        this.estado = true;
         conexion = Conexion.getInstancia();
     }
     
-    public DCliente_Imprisol(int id, String codigo, int nit, String nombre, String telefono) {
-        this.id = id;
-        this.codigo = codigo;
-        this.nit = nit;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.estado = "1";
-        conexion = Conexion.getInstancia();
-    }
-    
-    public DCliente_Imprisol(String codigo, int nit, String nombre, String telefono) {
+    public DCliente_Imprisol(String email, String contraseña, int nit, String nombre, String telefono) {
         this.id = 0;
-        this.codigo = codigo;
+        this.email = email;
+        this.contraseña = contraseña;
         this.nit = nit;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.estado = "1";
+        this.estado = true;
         conexion = Conexion.getInstancia();
     }
 
@@ -64,14 +57,22 @@ public class DCliente_Imprisol {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+    
     public int getNit() {
         return nit;
     }
@@ -96,13 +97,14 @@ public class DCliente_Imprisol {
         this.telefono = telefono;
     }
 
-    public String getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
+    
     
     public DefaultTableModel getClientes() {
         this.conexion.abrirConexion();
@@ -138,22 +140,29 @@ public class DCliente_Imprisol {
     }
     
     public int registrar() {
+        
+        /////PRIMERO INSERTAMOS EN LA TABLA USUARIO
+        int idUsuario = insertarUsuarioDB();
+        this.setId(idUsuario);
+        //////////////////////////////////////////
+        
          // Abro y obtengo la conexion
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "INSERT INTO cliente(codigo, nit, nombre, telefono, estado) " +
+        String sql = "INSERT INTO cliente(nit, nombre, telefono, estado, usuarioid) " +
                       "VALUES(?, ?, ?, ?, ?)";
         try {
+            System.out.println("try catch de insertar cliente");
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
-            stmt.setInt(2, this.nit);
-            stmt.setString(3, this.nombre);
-            stmt.setString(4, this.telefono);
-            stmt.setString(5, this.estado);
+            stmt.setInt(1, this.nit);
+            stmt.setString(2, this.nombre);
+            stmt.setString(3, this.telefono);
+            stmt.setBoolean(4, this.estado);
+            stmt.setInt(5, this.id);
             int rows = stmt.executeUpdate();
 
             // Cierro Conexion
@@ -172,16 +181,49 @@ public class DCliente_Imprisol {
         return 0;
     }
     
+    public int insertarUsuarioDB(){
+        this.conexion.abrirConexion();
+        Connection con = this.conexion.getConexion();
+
+        String sql = "INSERT INTO usuario(username, contrasenia, estado) " +
+                      "VALUES(?, ?, ?)";
+        try {
+            System.out.println("try catch de insertar usuario");
+            // La ejecuto
+            PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
+            // es bueno cuando nuestra bd tiene las primarias autoincrementables
+            stmt.setString(1, this.email);
+            stmt.setString(2, this.contraseña);
+            stmt.setBoolean(3, this.estado);
+            int rows = stmt.executeUpdate();
+
+            // Cierro Conexion
+            this.conexion.cerrarConexion();
+
+            // Obtengo el id generado pra devolverlo
+            if (rows != 0) {
+                ResultSet generateKeys = stmt.getGeneratedKeys();
+                if (generateKeys.next()) {
+                    return generateKeys.getInt(1);  
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+    
     public int getIdCliente() {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
-        String sql = "SELECT * FROM cliente WHERE estado = 'A' AND cliente.codigo = ? LIMIT 1";
+        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.codigo = ? LIMIT 1";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
+            stmt.setInt(1, this.nit);
             ResultSet result = stmt.executeQuery();
             id = 0;
              while (result.next()) {
@@ -204,13 +246,13 @@ public class DCliente_Imprisol {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
         DefaultTableModel cliente = new DefaultTableModel();
-        String sql = "SELECT * FROM cliente WHERE estado = 'A' AND cliente.id = ? LIMIT 1";
+        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.nit = ? LIMIT 1";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setInt(1, this.id);
+            stmt.setInt(1, this.nit);
             ResultSet result = stmt.executeQuery();
             
              while (result.next()) {
@@ -218,11 +260,9 @@ public class DCliente_Imprisol {
                  System.out.println("NOMBRE --> " + result.getString("nombre"));
                 cliente.addRow(new Object[] {
                     result.getInt("id"),
-                    result.getString("codigo"),
                     result.getString("nit"),
                     result.getString("nombre"),
                     result.getString("telefono"),
-                    result.getString("estado")
                 });
             }
              
@@ -248,11 +288,11 @@ public class DCliente_Imprisol {
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
+            //stmt.setString(1, this.codigo);
             stmt.setInt(2, this.nit);
             stmt.setString(3, this.nombre);
             stmt.setString(4, this.telefono);
-            stmt.setString(5, this.estado);
+            //stmt.setString(5, this.estado);
             stmt.setInt(6, this.id);
             int rows = stmt.executeUpdate();
 
@@ -276,13 +316,13 @@ public class DCliente_Imprisol {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "UPDATE cliente SET estado = 'D' WHERE cliente.id = ?";
+        String sql = "UPDATE cliente SET estado = false WHERE cliente.nit = ?";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setInt(1, this.id);
+            stmt.setInt(1, this.nit);
             if (stmt.execute()) {
                 this.conexion.cerrarConexion();
                 return 1;

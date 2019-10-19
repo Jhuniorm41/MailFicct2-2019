@@ -27,11 +27,11 @@ public class Token {
     public static final int BARRA = 12;// |
 
 //Funciones
-    //public static final int REGISTRARCLIENTE = 100;
-    //public static final int MODIFICARCLIENTE = 101;
-    //public static final int ELIMINARCLIENTE = 102;
-    //public static final int OBTENERCLIENTE = 103;
-    //public static final int OBTENERCLIENTES = 104;
+    public static final int REGISTRARCLIENTE = 100;
+    public static final int MODIFICARCLIENTE = 101;
+    public static final int ELIMINARCLIENTE = 102;
+    public static final int OBTENERCLIENTE = 103;
+    public static final int OBTENERCLIENTES = 104;
 
     public static final int OBTENERADMINISTRATIVOS = 105;
     public static final int REGISTRARADMINISTRATIVO = 106;
@@ -94,11 +94,7 @@ public class Token {
     
     ///////////TECNO WEB 2-2019
     //CASO DE USO NUMERO 1 GESTIONAR USUARIO(CLIENTE)
-    public static final int REGISTRARCLIENTE = 100;
-    public static final int MODIFICARCLIENTE = 101;
-    public static final int ELIMINARCLIENTE = 102;
-    public static final int OBTENERCLIENTE = 103;
-    public static final int OBTENERCLIENTES = 104;
+   
     
     
     

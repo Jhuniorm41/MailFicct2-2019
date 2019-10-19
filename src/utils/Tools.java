@@ -184,7 +184,6 @@ public class Tools {
         for (int i = 0; i < tabla.getColumnCount(); i++) {
             tableString += "<th>" + (tabla.getColumnName(i)) + "</th> \n";
         }
-        tableString += "<th> Opciones </th> \n";
         tableString += "</tr> \n"
                 + "</thead> \n";
 

@@ -58,7 +58,7 @@ public class Impresol {
         String destinatario = Tools.getDestinatario(Mensaje);
         System.out.println("Destinatario: " + destinatario);
         String content = Tools.getSubjectOrden(Mensaje);
-        //System.out.println("ProcesarMensaje:Contenido " + content);
+        System.out.println("ProcesarMensaje:Contenido<<<<<<<<>>>>>>>>>>>>>> " + content);
 
         //Usuario user = new Usuario();
         //Verificamos si el usuario esta registrado en el sistema

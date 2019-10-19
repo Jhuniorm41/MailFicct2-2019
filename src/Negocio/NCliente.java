@@ -53,13 +53,19 @@ public class NCliente {
         return cliente.getCliente();
     }
     
-    public int modificar(String codigo, int nit, String nombre, String telefono) {
-        /*cliente.setCodigo(codigo);
-        int id = cliente.getIdCliente();
-        cliente = new DCliente_Imprisol(id, codigo, nit, nombre,telefono);
+    public int modificar(int nit, String nombre, String telefono) {
+        int id = 0;
+        cliente.setNit(nit);
+        id = cliente.getIdCliente();
+        if (id == 0) {
+            return 0;
+        }
+        cliente = new DCliente_Imprisol();
+        cliente.setNit(nit);
+        cliente.setNombre(nombre);
+        cliente.setTelefono(telefono);
         return cliente.modificar();
-        */
-        return 1;
+        
     }
     
     public int eliminar(int nit) {

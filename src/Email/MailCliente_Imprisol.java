@@ -19,6 +19,8 @@ import utils.Tools;
 public class MailCliente_Imprisol extends TemplateMail {
 
     private NCliente cliente;
+    MimeMail mail;
+
 
     public MailCliente_Imprisol() throws Exception {
         this.cliente = new NCliente();
@@ -62,7 +64,9 @@ public class MailCliente_Imprisol extends TemplateMail {
             String telefono = Tools.quitarComillas(analex.Preanalisis().getToStr());
             System.out.println("TELEFONO ES =====>>>>>>: "+telefono);
             String respuesta = cliente.registrar(email,contraseña, nit, nombre, telefono);
-            SMTP.sendMail(destinatario, "Registrar Cliente", respuesta);
+            //SMTP.sendMail(destinatario, "Registrar Cliente", respuesta);
+            mail = new MimeMail();
+            mail.sendHtmlEmail(destinatario, "Listado de Clientes actualizado", Tools.dibujarTablawithHTML(cliente.getClientes()));
             System.out.println("SUPUESTAMENTE GUARDO");
         } catch (Exception e) {
             //SMTP.sendMail(correoDest, "Registrar Cliente", Constantes.IngresoErrorR+"\n"+"Mensaje enviado: "+ analex.M.texto);
@@ -86,22 +90,23 @@ public class MailCliente_Imprisol extends TemplateMail {
             return;
         }
         try {
-            // Sino, ejecutar el comando
-            analex.Avanzar();
+               analex.Avanzar();
             // Atributos      
-            String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
-            analex.Avanzar();
-            analex.Avanzar();
             int nit = analex.Preanalisis().getAtributo();
+            System.out.println("NIT ES =====>>>>>>: "+nit);
             analex.Avanzar();
             analex.Avanzar();
             String nombre = Tools.quitarComillas(analex.Preanalisis().getToStr());
+            System.out.println("NOMBRE ES =====>>>>>>: "+nombre);
             analex.Avanzar();
             analex.Avanzar();
             String telefono = Tools.quitarComillas(analex.Preanalisis().getToStr());
+            System.out.println("TELEFONO ES =====>>>>>>: "+telefono);
 
-            cliente.modificar(codigo, nit, nombre, telefono);
-            System.out.println("SUPUESTAMENTE GUARDO");
+            cliente.modificar( nit, nombre, telefono);
+            System.out.println("SUPUESTAMENTE ACTUALIZO");
+            mail = new MimeMail();
+            mail.sendHtmlEmail(destinatario, "Listado de Clientes actualizado", Tools.dibujarTablawithHTML(cliente.getClientes()));
         } catch (Exception e) {
             //SMTP.sendMail(correoDest, "Registrar Cliente", Constantes.IngresoErrorR+"\n"+"Mensaje enviado: "+ analex.M.texto);
             SMTP.sendMail(destinatario, "Actualizar Cliente", "ERROR XD" + "\n" + "Mensaje enviado: " + analex.M.texto);
@@ -131,12 +136,14 @@ public class MailCliente_Imprisol extends TemplateMail {
             analex.Avanzar();
             cliente.eliminar(nit);
             System.out.println("ELIMINO");
+            mail = new MimeMail();
+            mail.sendHtmlEmail(destinatario, "Listado de Clientes actualizado", Tools.dibujarTablawithHTML(cliente.getClientes()));
             //MimeMail mimemailer = new MimeMail();
             //mimemailer.sendHtmlEmail(correoDest, "Mostrar Clientes", "Lista de Clientes\n" + Tools.dibujarTablawithHTMLwithoutOpciones(cliente.getClientes()));            
             //SMTP.sendMail(correoDest,"OBTENERCLIENTES", "Lista de Clientes\n" + Tools.dibujarDatos(cliente.getClientes()));
         } catch (Exception e) {
-            SMTP.sendMail(destinatario, "Mostrar Clientes", "error durante la obtencion de la tabla, verifique con el comando HELP");
-
+            //SMTP.sendMail(destinatario, "Mostrar Clientes", "error durante la obtencion de la tabla, verifique con el comando HELP");
+            
         }
     }
 
@@ -157,7 +164,7 @@ public class MailCliente_Imprisol extends TemplateMail {
         try {
             //MimeMail mimemailer = new MimeMail();
             //mimemailer.sendHtmlEmail(correoDest, "Mostrar Clientes", "Lista de Clientes\n" + Tools.dibujarTablawithHTMLwithoutOpciones(cliente.getClientes()));            
-            MimeMail mail = new MimeMail();
+            
             mail.sendHtmlEmail(destinatario, "Listado de ClienteS", Tools.dibujarTablawithHTML(cliente.getClientes()));
             //SMTP.sendMail(destinatario, "OBTENERCLIENTES", "Lista de Clientes\n" + Tools.dibujarDatos(cliente.getClientes()));
         } catch (Exception e) {

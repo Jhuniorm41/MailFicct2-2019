@@ -217,7 +217,7 @@ public class DCliente_Imprisol {
     public int getIdCliente() {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
-        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.codigo = ? LIMIT 1";
+        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.nit = ? LIMIT 1";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -281,21 +281,18 @@ public class DCliente_Imprisol {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "UPDATE cliente SET codigo = ?, nit = ?, nombre = ?, " +
-                "telefono = ?, estado = ? WHERE cliente.id = ?";
+        String sql = "UPDATE cliente SET nombre = ?, " +
+                "telefono = ? WHERE cliente.nit = ?";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
             //stmt.setString(1, this.codigo);
-            stmt.setInt(2, this.nit);
-            stmt.setString(3, this.nombre);
-            stmt.setString(4, this.telefono);
-            //stmt.setString(5, this.estado);
-            stmt.setInt(6, this.id);
+            stmt.setString(1, this.nombre);
+            stmt.setString(2, this.telefono);
+            stmt.setInt(3, this.nit);
             int rows = stmt.executeUpdate();
-
             // Cierro Conexion
             this.conexion.cerrarConexion();
 

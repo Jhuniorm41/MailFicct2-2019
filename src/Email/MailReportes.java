@@ -8,6 +8,7 @@ package Email;
 import Negocio.NReportes;
 import Procesador.Analex;
 import Procesador.Token;
+import Protocolos.MimeMail;
 import Protocolos.SMTP;
 import javax.swing.table.DefaultTableModel;
 import utils.Tools;
@@ -22,10 +23,9 @@ public class MailReportes {
     public MailReportes() throws Exception {
         reportes = new NReportes();
     }
-
-    public void reporteNTCliente(Analex analex, String destinatario) {
-        
-        // Obtengo el Siguiente token
+    
+    public void reporteProdsGarantia(Analex analex, String destinatario) {
+         // Obtengo el Siguiente token
         analex.Avanzar();
         Token token = analex.Preanalisis();
 
@@ -38,23 +38,21 @@ public class MailReportes {
         }
          analex.Avanzar();
         // Atributos      
-        String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
-        DefaultTableModel tabla = reportes.getReporteNotaVentaCodigoCliente(codigo);
+       // String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
+        //DefaultTableModel tabla = reportes.getReportePedidosCodigoCliente(codigo);
         try {
-            //MimeMail mimemailer = new MimeMail();
-            //mimemailer.sendHtmlEmail(correoDest, "Mostrar Clientes", "Lista de Clientes\n" + Tools.dibujarTablawithHTMLwithoutOpciones(cliente.getClientes()));            
-            SMTP.sendMail(destinatario, "REPORTE DE VENTAS DEL CLIENTE", Tools.dibujarDatos(tabla));
+            MimeMail mimemailer = new MimeMail();
+            
+            mimemailer.sendHtmlEmail(destinatario, "PRODUCTOS CON GARANTIA VIGENTE",Tools.dibujarTablawithHTMLwithoutOpciones(reportes.getReporteProdsGarantiaVige()));            
+            //SMTP.sendMail(destinatario, "REPORTE DE VENTAS DEL CLIENTE", Tools.dibujarDatos(tabla));
         } catch (Exception e) {
             SMTP.sendMail(destinatario, "Mostrar Clientes", "error durante la obtencion de la tabla, verifique con el comando HELP");
 
         }
-
-        //  String mensaje = Herramientas.dibujarTabla(clienteNegocio.mostrarClientes());        
-        //  clienteSMTP.sendMail(correoDest, "Mostrar Clientes\n\n", mensaje);   
     }
     
-    public void reporteEntregasAdmin(Analex analex, String destinatario) {
-        // Obtengo el Siguiente token
+    public void reporteReservas(Analex analex, String destinatario) {
+         // Obtengo el Siguiente token
         analex.Avanzar();
         Token token = analex.Preanalisis();
 
@@ -67,23 +65,21 @@ public class MailReportes {
         }
          analex.Avanzar();
         // Atributos      
-        String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
-        DefaultTableModel tabla = reportes.getReporteEntregasCodigoAdministrativo(codigo);
+       // String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
+        //DefaultTableModel tabla = reportes.getReportePedidosCodigoCliente(codigo);
         try {
-            //MimeMail mimemailer = new MimeMail();
-            //mimemailer.sendHtmlEmail(correoDest, "Mostrar Clientes", "Lista de Clientes\n" + Tools.dibujarTablawithHTMLwithoutOpciones(cliente.getClientes()));            
-            SMTP.sendMail(destinatario, "REPORTE DE ENTREGAS DEL ADMINISTRATIVO", Tools.dibujarDatos(tabla));
+            MimeMail mimemailer = new MimeMail();
+            
+            mimemailer.sendHtmlEmail(destinatario, "RESERVAS VIGENTES",Tools.dibujarTablawithHTMLwithoutOpciones(reportes.getReporteReservas()));            
+            //SMTP.sendMail(destinatario, "REPORTE DE VENTAS DEL CLIENTE", Tools.dibujarDatos(tabla));
         } catch (Exception e) {
             SMTP.sendMail(destinatario, "Mostrar Clientes", "error durante la obtencion de la tabla, verifique con el comando HELP");
 
         }
-
-        //  String mensaje = Herramientas.dibujarTabla(clienteNegocio.mostrarClientes());        
-        //  clienteSMTP.sendMail(correoDest, "Mostrar Clientes\n\n", mensaje);   
     }
     
-    public void reportePedidosCliente(Analex analex, String destinatario) {
-        // Obtengo el Siguiente token
+    public void reporteCotizaciones(Analex analex, String destinatario) {
+         // Obtengo el Siguiente token
         analex.Avanzar();
         Token token = analex.Preanalisis();
 
@@ -96,18 +92,16 @@ public class MailReportes {
         }
          analex.Avanzar();
         // Atributos      
-        String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
-        DefaultTableModel tabla = reportes.getReportePedidosCodigoCliente(codigo);
+       // String codigo = Tools.quitarComillas(analex.Preanalisis().getToStr());
+        //DefaultTableModel tabla = reportes.getReportePedidosCodigoCliente(codigo);
         try {
-            //MimeMail mimemailer = new MimeMail();
-            //mimemailer.sendHtmlEmail(correoDest, "Mostrar Clientes", "Lista de Clientes\n" + Tools.dibujarTablawithHTMLwithoutOpciones(cliente.getClientes()));            
-            SMTP.sendMail(destinatario, "REPORTE DE VENTAS DEL CLIENTE", Tools.dibujarDatos(tabla));
+            MimeMail mimemailer = new MimeMail();
+            
+            mimemailer.sendHtmlEmail(destinatario, "LISTA DE COTIZACIONES", Tools.dibujarTablawithHTMLwithoutOpciones(reportes.getCotizaciones()));            
+            //SMTP.sendMail(destinatario, "REPORTE DE VENTAS DEL CLIENTE", Tools.dibujarDatos(tabla));
         } catch (Exception e) {
             SMTP.sendMail(destinatario, "Mostrar Clientes", "error durante la obtencion de la tabla, verifique con el comando HELP");
 
         }
-
-        //  String mensaje = Herramientas.dibujarTabla(clienteNegocio.mostrarClientes());        
-        //  clienteSMTP.sendMail(correoDest, "Mostrar Clientes\n\n", mensaje);   
     }
 }

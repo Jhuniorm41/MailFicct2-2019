@@ -18,11 +18,11 @@ import utils.Tools;
  *
  * @author ADL
  */
-public class MailEstadistica {
+public class MailEstadistica_Imprisol {
     
     private NEstadistica estad;
     
-    public MailEstadistica() {
+    public MailEstadistica_Imprisol() {
         estad = new NEstadistica();
     }
     

@@ -5,7 +5,7 @@
  */
 package Negocio;
 
-import Datos.DAdministrativo;
+import Datos.DPersonal_Imprisol;
 import java.sql.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -14,12 +14,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADL
  */
-public class NAdministrativo {
+public class NPersonal {
 
-    private DAdministrativo adm;
+    private DPersonal_Imprisol adm;
 
-    public NAdministrativo() {
-        adm = new DAdministrativo();
+    public NPersonal() {
+        adm = new DPersonal_Imprisol();
     }
 
     public DefaultTableModel getAdministrativos() {
@@ -51,7 +51,7 @@ public class NAdministrativo {
         int month = Integer.parseInt(arr[1]) - 1;
         int day = Integer.parseInt(arr[2]);
         
-        adm = new DAdministrativo(codigo, nombre, telefono, "A", cargo, new Date(year, month, day));
+        adm = new DPersonal_Imprisol(codigo, nombre, telefono, "A", cargo, new Date(year, month, day));
         if (adm.registrar() > 0) {
             return "Se guardo correctamente";
         } else {
@@ -67,7 +67,7 @@ public class NAdministrativo {
     public int modificar(String codigo, String nombre, String telefono, String cargo, Date fecha_ingreso) {
         adm.setCodigo(codigo);
         int id = adm.getIdAdm();
-        adm = new DAdministrativo(id , codigo, nombre, telefono, "A", cargo, fecha_ingreso);
+        adm = new DPersonal_Imprisol(id , codigo, nombre, telefono, "A", cargo, fecha_ingreso);
         return adm.modificar();
     }
 
@@ -81,7 +81,7 @@ public class NAdministrativo {
     public String Mostrar() throws Exception {
           String rx = "";
         try {
-            List<DAdministrativo> lObj = (List<DAdministrativo>) this.getAdministrativos();
+            List<DPersonal_Imprisol> lObj = (List<DPersonal_Imprisol>) this.getAdministrativos();
 
             rx = "<center><h2>LISTA DE ADMINISTRATIVOS DE LA EMPRESA</h2></center><br>";
             rx += " <table style=\"width:100%; border-style: outset; text-align: left;\" >" +
@@ -95,7 +95,7 @@ public class NAdministrativo {
                     "                   </tr>\n" +
                     "             </thead>\n" +
                     "                  <tbody> ";
-            for (DAdministrativo obj : lObj) {
+            for (DPersonal_Imprisol obj : lObj) {
                 rx = rx +
                         "<tr style=\"\">\n" +
                         "   <td>"+ obj.getId() + "</td>\n" +

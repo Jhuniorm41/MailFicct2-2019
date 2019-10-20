@@ -18,139 +18,49 @@ public class TPC {
             "HELP",
             "TRUE",
             "FALSE",
-            // CU GESTION DE USUARIO
+            // CU1
+            //GESTION DE CLIENTES
+            
             "REGISTRARCLIENTE",
             "MODIFICARCLIENTE",
             "ELIMINARCLIENTE",
             "OBTENERCLIENTE",
             "OBTENERCLIENTES",
-            "OBTENERADMINISTRATIVOS",
-            "REGISTRARADMINISTRATIVO",
-            "MODIFICARADMINISTRATIVO",
-            "ELIMINARADMINISTRATIVO",
-            "OBTENERPROVEEDORES",
-            "REGISTRARPROVEEDOR",
-            "MODIFICARPROVEEDOR",
-            "ELIMINARPROVEEDOR",
-            // CU GESTIONAR PRODUCTO
-            "OBTENERTIPOSPRODUCTOS",
-            "REGISTRARTIPOPRODUCTO",
-            "MODIFICARTIPOPRODUCTO",
-            "ELIMINARTIPOPRODUCTO",
-            "OBTENERPRODUCTOS",
-            "REGISTRARPRODUCTO",
-            "MODIFICARPRODUCTO",
-            "ELIMINARPRODUCTO",
-            
-            "OBTENERTIPOSENTREGAS",
-            "REGISTRARTIPOENTREGA",
-            "MODIFICARTIPOENTREGA",
-            "ELIMINARTIPOENTREGA",
-            
-            "OBTENERALMACENES",
-            "REGISTRARALMACEN",
-            "MODIFICARALMACEN",
-            "ELIMINARALMACEN",
-            
-            "OBTENERPEDIDOS",
-            "REGISTRARPEDIDO",
-            "MODIFICARPEDIDO",
-            "ELIMINARPEDIDO",
-            "PROD",
-            
-            "OBTENERVENTAS",
-            "REGISTRARVENTA",
-            "MODIFICARVENTA",
-            "ELIMINARVENTA",
-            
-            "OBTENERENTREGAS",
-            "REGISTRARENTREGA",
-            "MODIFICARENTREGA",
-            "ELIMINARENTREGA",
-            
-            "OBTENERINVENTARIOS",
-            "REGISTRARINVENTARIO",
-            "MODIFICARINVENTARIO",
-            "ELIMINARINVENTARIO",
-            
-            "REPORTENTCLIENTE",
-            "REPORTEENTREGASADM",
-            "REPORTEPEDCLIENTES",
-            "VENTAMES",
-            "VENTADIA"
-            
+            // GESTION DE PERSONAL
+           "REGISTRARPERSONAL",
+            "MODIFICARPERSONAL",
+            "ELIMINARPERSONAL",
+            "OBTENERPERSONAL",
+            "OBTENERPERSONAL",
+            //REPORTE
+            "REPORTEPRODSGARANTIA",
+            "REPORTERESERVASVIG",
+            "REPORTECOTIZACIONES"
     ));
 
     private static final LinkedList<Token> tokens = new LinkedList<>(Arrays.asList(
             new Token(Token.HELP, -1, "HELP"),
             new Token(Token.TRUE, -1, "TRUE"),
             new Token(Token.FALSE, -1, "FALSE"),
-            // CASO DE USO GESTIONAR CLIENTE
+            // CASO DE USO1
+            //GESTIONAR CLIENTE
             new Token(Token.FUNC, Token.REGISTRARCLIENTE, "REGISTRARCLIENTE"),
             new Token(Token.FUNC, Token.MODIFICARCLIENTE, "MODIFICARCLIENTE"),
             new Token(Token.FUNC, Token.ELIMINARCLIENTE, "ELIMINARCLIENTE"),
             new Token(Token.FUNC, Token.OBTENERCLIENTE, "OBTENERCLIENTE"),
             new Token(Token.FUNC, Token.OBTENERCLIENTES, "OBTENERCLIENTES"),
+            // GESTIONAR PERSONAL
+            new Token(Token.FUNC, Token.REGISTRARPERSONAL, "REGISTRARPERSONAL"),
+            new Token(Token.FUNC, Token.MODIFICARPERSONAL, "MODIFICARPERSONAL"),
+            new Token(Token.FUNC, Token.ELIMINARPERSONAL, "ELIMINARPERSONAL"),
+            new Token(Token.FUNC, Token.OBTENERPERSONAL, "OBTENERPERSONAL"),
+            new Token(Token.FUNC, Token.OBTENERPERSONALES, "OBTENERPERSONALES"),
             
-            
-            new Token(Token.FUNC, Token.OBTENERADMINISTRATIVOS, "OBTENERADMINISTRATIVOS"),
-            new Token(Token.FUNC, Token.REGISTRARADMINISTRATIVO, "REGISTRARADMINISTRATIVO"),
-            new Token(Token.FUNC, Token.MODIFICARADMINISTRATIVO, "MODIFICARADMINISTRATIVO"),
-            new Token(Token.FUNC, Token.ELIMINARADMINISTRATIVO, "ELIMINARADMINISTRATIVO"),
-            
-            new Token(Token.FUNC, Token.OBTENERPROVEEDORES, "OBTENERPROVEEDORES"),
-            new Token(Token.FUNC, Token.REGISTRARPROVEEDOR, "REGISTRARPROVEEDOR"),
-            new Token(Token.FUNC, Token.MODIFICARPROVEEDOR, "MODIFICARPROVEEDOR"),
-            new Token(Token.FUNC, Token.ELIMINARPROVEEDOR, "ELIMINARPROVEEDOR"),
-            // CASO DE USO GESTIONAR PRODUCTO
-            new Token(Token.FUNC, Token.OBTENERTIPOSPRODUCTOS, "OBTENERTIPOSPRODUCTOS"),
-            new Token(Token.FUNC, Token.REGISTRARTIPOPRODUCTO, "REGISTRARTIPOPRODUCTO"),
-            new Token(Token.FUNC, Token.MODIFICARTIPOPRODUCTO, "MODIFICARTIPOPRODUCTO"),
-            new Token(Token.FUNC, Token.ELIMINARTIPOPRODUCTO, "ELIMINARTIPOPRODUCTO"),
-            
-            new Token(Token.FUNC, Token.OBTENERPRODUCTOS, "OBTENERPRODUCTOS"),
-            new Token(Token.FUNC, Token.REGISTRARPRODUCTO, "REGISTRARPRODUCTO"),
-            new Token(Token.FUNC, Token.MODIFICARPRODUCTO, "MODIFICARPRODUCTO"),
-            new Token(Token.FUNC, Token.ELIMINARPRODUCTO, "ELIMINARPRODUCTO"),
-            
-            new Token(Token.FUNC, Token.OBTENERTIPOSENTREGAS, "OBTENERTIPOSENTREGAS"),
-            new Token(Token.FUNC, Token.REGISTRARTIPOPRODUCTO, "REGISTRARTIPOENTREGA"),
-            new Token(Token.FUNC, Token.MODIFICARTIPOPRODUCTO, "MODIFICARTIPOENTREGA"),
-            new Token(Token.FUNC, Token.ELIMINARTIPOPRODUCTO, "ELIMINARTIPOENTREGA"),
-            
-            new Token(Token.FUNC, Token.OBTENERALMACENES, "OBTENERALMACENES"),
-            new Token(Token.FUNC, Token.REGISTRARALMACEN, "REGISTRARALMACEN"),
-            new Token(Token.FUNC, Token.MODIFICARALMACEN, "MODIFICARALMACEN"),
-            new Token(Token.FUNC, Token.ELIMINARALMACEN, "ELIMINARALMACEN"),
-            
-            new Token(Token.FUNC, Token.OBTENERPEDIDOS, "OBTENERPEDIDOS"),
-            new Token(Token.FUNC, Token.REGISTRARPEDIDO, "REGISTRARPEDIDO"),
-            new Token(Token.FUNC, Token.MODIFICARPEDIDO, "MODIFICARPEDIDO"),
-            new Token(Token.FUNC, Token.ELIMINARPEDIDO, "ELIMINARPEDIDO"),
-            new Token(Token.FUNC, Token.PROD, "PROD"),
-            
-            new Token(Token.FUNC, Token.OBTENERVENTAS, "OBTENERVENTAS"),
-            new Token(Token.FUNC, Token.REGISTRARVENTA, "REGISTRARVENTA"),
-            new Token(Token.FUNC, Token.MODIFICARVENTA, "MODIFICARVENTA"),
-            new Token(Token.FUNC, Token.ELIMINARVENTA, "ELIMINARVENTA"),
-            
-            new Token(Token.FUNC, Token.OBTENERENTREGAS, "OBTENERENTREGAS"),
-            new Token(Token.FUNC, Token.REGISTRARENTREGA, "REGISTRARENTREGA"),
-            new Token(Token.FUNC, Token.MODIFICARENTREGA, "MODIFICARENTREGA"),
-            new Token(Token.FUNC, Token.ELIMINARENTREGA, "ELIMINARENTREGA"),
+            //REPORTES
+            new Token(Token.FUNC, Token.REPORTEPRODSGARANTIA, "REPORTEPRODSGARANTIA"),
+            new Token(Token.FUNC, Token.REPORTERESERVASVIG, "REPORTERESERVASVIG"),
+            new Token(Token.FUNC, Token.REPORTECOTIZACIONES, "REPORTECOTIZACIONES")
 
-            new Token(Token.FUNC, Token.OBTENERINVENTARIOS, "OBTENERINVENTARIOS"),
-            new Token(Token.FUNC, Token.REGISTRARINVENTARIO, "REGISTRARINVENTARIO"),
-            new Token(Token.FUNC, Token.MODIFICARINVENTARIO, "MODIFICARINVENTARIO"),
-            new Token(Token.FUNC, Token.ELIMINARINVENTARIO, "ELIMINARINVENTARIO"),
-            
-            new Token(Token.FUNC, Token.REPORTENTCLIENTE, "REPORTENTCLIENTE"),
-            new Token(Token.FUNC, Token.REPORTEENTREGASADM, "REPORTEENTREGASADM"),
-            new Token(Token.FUNC, Token.REPORTEPEDCLIENTES, "REPORTEPEDCLIENTES"),
-            
-            new Token(Token.FUNC, Token.VENTAMES, "VENTAMES"),
-            new Token(Token.FUNC, Token.VENTADIA, "VENTADIA")
-     
     ));
 
     public static Token estaEnTPC(String lexema) {

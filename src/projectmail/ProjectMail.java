@@ -6,27 +6,6 @@
 package projectmail;
 
 import Datos.Conexion;
-import Datos.DAdministrativo;
-import Datos.DCliente_Imprisol;
-import Datos.DPedido;
-import Datos.DProveedor;
-import Datos.DUsuario_Imprisol;
-import Negocio.NCliente;
-import Negocio.NPedido;
-import Negocio.NProducto;
-import Negocio.NReportes;
-import Protocolos.MimeMail;
-import Protocolos.POP;
-import Protocolos.SMTP;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import utils.Help;
-import utils.Tools;
-
 /**
  *
  * @author ADL

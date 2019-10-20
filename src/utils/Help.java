@@ -5,8 +5,7 @@
  */
 package utils;
 
-import Negocio.NCliente;
-import Negocio.NProducto;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,8 +13,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ADL
  */
 public class Help {
-    private static NCliente cliente;
-    private static NProducto producto;
+
     
     public static final String PRINCIPAL = "Bienvenido!!!\n\n"
             + "A continuacion se listaran los comandos disponibles para interactuar con el Sistema\n"

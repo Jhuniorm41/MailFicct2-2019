@@ -19,15 +19,15 @@ public class NReportes {
         this.reporte = new DReportes();
     }
 
-    public DefaultTableModel getReportePedidosCodigoCliente(String codigo) {
-        return reporte.getReportePedidosCliente(codigo);
-    }
-
-    public DefaultTableModel getReporteNotaVentaCodigoCliente(String codigo) {
-        return reporte.getReporteNotaVentasCliente(codigo);
+   public DefaultTableModel getReporteProdsGarantiaVige() {
+        return reporte.getProdsGarantiaVige();
     }
     
-    public DefaultTableModel getReporteEntregasCodigoAdministrativo(String codigo) {
-        return reporte.getReporteEntregasAdministradores(codigo);
+    public DefaultTableModel getReporteReservas() {
+        return reporte.getReservas();
+    }
+    
+    public DefaultTableModel getCotizaciones() {
+        return reporte.getCotizaciones();
     }
 }

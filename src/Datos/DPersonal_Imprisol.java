@@ -18,50 +18,41 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ADL
  */
-public class DAdministrativo {
+public class DPersonal_Imprisol {
     private int id;
+    private String email;
+    private String contraseña;
     private String codigo;
     private String nombre;
     private String telefono;
-    private String estado;
+    private String direccion;
     private String cargo;
-    private Date fecha_ingreso;
+    private boolean estado;
+   
     private Conexion conexion;
     
-    public DAdministrativo() {
+    public DPersonal_Imprisol() {
         this.id = 0;
         this.codigo = "";
         this.nombre = "";
         this.telefono = "";
-        this.estado = "";
+        this.direccion = "";
         this.cargo = "";
-        this.fecha_ingreso = new Date(1000);
+        this.estado = true;
         conexion = Conexion.getInstancia();
     }
 
      
-    public DAdministrativo(String codigo, String nombre, String telefono, String estado, String cargo, Date fecha_ingreso) {
+    public DPersonal_Imprisol(String codigo, String nombre, String telefono, String direccion, String cargo) {
         this.id = 0;
         this.codigo = codigo;
         this.nombre = nombre;
         this.telefono = telefono;
-        this.estado = estado;
+        this.direccion = direccion;
         this.cargo = cargo;
-        this.fecha_ingreso = fecha_ingreso;
+        this.estado = true;
         conexion = Conexion.getInstancia();
     }
-    
-    public DAdministrativo(int id, String codigo, String nombre, String telefono, String estado, String cargo, Date fecha_ingreso) {
-        this.id = id;
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.estado = estado;
-        this.cargo = cargo;
-        this.fecha_ingreso = fecha_ingreso;
-        conexion = Conexion.getInstancia();
-    }
-   
 
     public int getId() {
         return id;
@@ -69,6 +60,22 @@ public class DAdministrativo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
     public String getCodigo() {
@@ -95,14 +102,14 @@ public class DAdministrativo {
         this.telefono = telefono;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
-    
+
     public String getCargo() {
         return cargo;
     }
@@ -111,22 +118,31 @@ public class DAdministrativo {
         this.cargo = cargo;
     }
 
-    public Date getFecha_ingreso() {
-        return fecha_ingreso;
+    public boolean getEstado() {
+        return estado;
     }
 
-    public void setFecha_ingreso(Date fecha_ingreso) {
-        this.fecha_ingreso = fecha_ingreso;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
-    
-    public DefaultTableModel getAdministrativos() {
+
+    public Conexion getConexion() {
+        return conexion;
+    }
+
+    public void setConexion(Conexion conexion) {
+        this.conexion = conexion;
+    }
+ 
+
+    public DefaultTableModel getPersonales() {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
         DefaultTableModel adms = new DefaultTableModel();
         adms.setColumnIdentifiers(new Object[]{
-            "id", "codigo","nombre", "telefono", "estado", "cargo", "fecha_ingreso"
+            "id", "codigo","nombre", "telefono", "direccion", "cargo"
         });
-        String sql = "SELECT * FROM administrativo WHERE estado = 'A'";
+        String sql = "SELECT * FROM personal WHERE estado = true ";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -140,9 +156,8 @@ public class DAdministrativo {
                     result.getString("codigo"),
                     result.getString("nombre"),
                     result.getString("telefono"),
-                    result.getString("estado"),
-                    result.getString("cargo"),
-                    result.getDate("fecha_ingreso")
+                    result.getString("direccion"),
+                    result.getString("cargo")
                 });
             }
             // Cierro Conexion
@@ -155,23 +170,29 @@ public class DAdministrativo {
     }
     
     public int registrar() {
+        
+        /////PRIMERO INSERTAMOS EN LA TABLA USUARIO
+        int idUsuario = insertarUsuarioDB();
+        this.setId(idUsuario);
+        //////////////////////////////////////////
+        
          // Abro y obtengo la conexion
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "INSERT INTO administrativo(codigo, nombre, telefono, estado, cargo, fecha_ingreso) " +
-                      "VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO personal(nit, nombre, telefono, estado, usuarioid) " +
+                      "VALUES(?, ?, ?, ?, ?)";
         try {
+            System.out.println("try catch de insertar personal");
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
+            stmt.setInt(1, this.nit);
             stmt.setString(2, this.nombre);
             stmt.setString(3, this.telefono);
-            stmt.setString(4, "A");
-            stmt.setString(5, this.cargo);
-            stmt.setDate(6, this.fecha_ingreso);
+            stmt.setBoolean(4, this.estado);
+            stmt.setInt(5, this.id);
             int rows = stmt.executeUpdate();
 
             // Cierro Conexion
@@ -190,16 +211,49 @@ public class DAdministrativo {
         return 0;
     }
     
-    public int getIdAdm() {
+    public int insertarUsuarioDB(){
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
-        String sql = "SELECT * FROM administrativo WHERE estado = 'A' AND codigo = ? LIMIT 1";
+
+        String sql = "INSERT INTO usuario(username, contrasenia, estado) " +
+                      "VALUES(?, ?, ?)";
+        try {
+            System.out.println("try catch de insertar usuario");
+            // La ejecuto
+            PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
+            // es bueno cuando nuestra bd tiene las primarias autoincrementables
+            stmt.setString(1, this.email);
+            stmt.setString(2, this.contraseña);
+            stmt.setBoolean(3, this.estado);
+            int rows = stmt.executeUpdate();
+
+            // Cierro Conexion
+            this.conexion.cerrarConexion();
+
+            // Obtengo el id generado pra devolverlo
+            if (rows != 0) {
+                ResultSet generateKeys = stmt.getGeneratedKeys();
+                if (generateKeys.next()) {
+                    return generateKeys.getInt(1);  
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+    
+    public int getIdPersonal() {
+        this.conexion.abrirConexion();
+        Connection con = this.conexion.getConexion();
+        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.nit = ? LIMIT 1";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
+            stmt.setInt(1, this.nit);
             ResultSet result = stmt.executeQuery();
             id = 0;
              while (result.next()) {
@@ -217,30 +271,28 @@ public class DAdministrativo {
         return id;
     }
     
-    public DefaultTableModel getAdministrativo() {
+    public DefaultTableModel getPersonal() {
         
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
-        DefaultTableModel adm = new DefaultTableModel();
-        String sql = "SELECT * FROM administrativo WHERE estado = 'A' AND administrativo.id = ? LIMIT 1";
+        DefaultTableModel cliente = new DefaultTableModel();
+        String sql = "SELECT * FROM cliente WHERE estado = true AND cliente.nit = ? LIMIT 1";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setInt(1, this.id);
+            stmt.setInt(1, this.nit);
             ResultSet result = stmt.executeQuery();
             
              while (result.next()) {
                 // Agrego las tuplas a mi tabla
-                adm.addRow(new Object[] {
+                 System.out.println("NOMBRE --> " + result.getString("nombre"));
+                cliente.addRow(new Object[] {
                     result.getInt("id"),
-                    result.getString("codigo"),
+                    result.getString("nit"),
                     result.getString("nombre"),
                     result.getString("telefono"),
-                    result.getString("estado"),
-                    result.getString("cargo"),
-                    result.getDate("fecha_ingreso")
                 });
             }
              
@@ -252,29 +304,25 @@ public class DAdministrativo {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return adm;
+        return cliente;
     }
     
     public int modificar() {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "UPDATE administrativo SET codigo = ?, nombre = ?, telefono = ?, " +
-                "estado = ?, cargo = ?, fecha_ingreso = ? WHERE administrativo.id = ?";
+        String sql = "UPDATE cliente SET nombre = ?, " +
+                "telefono = ? WHERE cliente.nit = ?";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setString(1, this.codigo);
-            stmt.setString(2, this.nombre);
-            stmt.setString(3, this.telefono);
-            stmt.setString(4, "A");
-            stmt.setString(5, this.cargo);
-            stmt.setDate(6, this.fecha_ingreso);
-            stmt.setInt(7, this.id);
+            //stmt.setString(1, this.codigo);
+            stmt.setString(1, this.nombre);
+            stmt.setString(2, this.telefono);
+            stmt.setInt(3, this.nit);
             int rows = stmt.executeUpdate();
-
             // Cierro Conexion
             this.conexion.cerrarConexion();
 
@@ -295,13 +343,13 @@ public class DAdministrativo {
         this.conexion.abrirConexion();
         Connection con = this.conexion.getConexion();
 
-        String sql = "UPDATE administrativo SET estado = 'D' WHERE administrativo.id = ?";
+        String sql = "UPDATE cliente SET estado = false WHERE cliente.nit = ?";
         try {
             // La ejecuto
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // El segundo parametro de usa cuando se tienen tablas que generan llaves primarias
             // es bueno cuando nuestra bd tiene las primarias autoincrementables
-            stmt.setInt(1, this.id);
+            stmt.setInt(1, this.nit);
             if (stmt.execute()) {
                 this.conexion.cerrarConexion();
                 return 1;
@@ -314,5 +362,5 @@ public class DAdministrativo {
             System.out.println(ex.getMessage());
         }
         return -1;
-    }     
+    }
 }
